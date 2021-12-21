@@ -1,49 +1,72 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+    <div class="q-pa-md" style="max-width: 400px">
+      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-input
+          filled
+          v-model="name"
+          label="Usuário *"
+          color="orange"
+          hint="preencha com seu usuário cadastrado"
+          lazy-rules
+          :rules="[
+            (val) => (val && val.length > 0) || 'Campo deve ser preenchido',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="person" color="orange" />
+          </template>
+        </q-input>
+
+        <q-input
+          v-model="password"
+          filled
+          label="Senha"
+          color="orange"
+          :type="isPwd ? 'password' : 'text'"
+        >
+          <template v-slot:prepend>
+            <q-icon name="key" color="orange" />
+          </template>
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
+
+        <div>
+          <q-btn
+            label="Entrar"
+            type="submit"
+            color="orange"
+            class="full-width"
+          />
+          <q-btn
+            label="entrar modo anônimo"
+            color="grey"
+            flat
+            class="q-mt-sm full-width"
+          />
+        </div>
+      </q-form>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/OptionsComponent.vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'PageIndex',
-  components: { ExampleComponent },
-  data() {
-    const todos: Todo[] = [
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ];
-    const meta: Meta = {
-      totalCount: 1200
+
+  setup() {
+    return {
+      password: ref(''),
+      isPwd: ref(true),
     };
-    return { todos, meta };
-  }
+  },
 });
 </script>
