@@ -1,7 +1,12 @@
 <template>
   <q-page class="row items-center justify-evenly">
     <div class="q-pa-md" style="max-width: 400px">
-      <q-form @submit="onSubmit" class="q-gutter-md">
+      <q-form
+        action="http://localhost:3333"
+        method="POST"
+        @submit="onSubmit"
+        class="q-gutter-md"
+      >
         <q-input
           filled
           name="login"
@@ -44,12 +49,15 @@
           />
           <q-btn
             label="entrar modo anônimo"
+            @click="handleClickAnonymous"
             color="grey"
             flat
             class="q-mt-sm full-width"
           />
         </div>
       </q-form>
+      <p>{{ state.login }}</p>
+      {{ state.password }}
     </div>
   </q-page>
 </template>
@@ -63,14 +71,37 @@ export default defineComponent({
   setup() {
     const state = reactive({ login: '', password: '', isPwd: true });
     const onSubmit = async () => {
-      const result = await fetch('http://localhost:3333/login', {
+      await fetch('http://localhost:3333', {
         method: 'POST',
-        body: JSON.stringify({ login: state.login, password: state.password }),
-      });
-      console.log(result);
+        body: JSON.stringify({
+          login: state.login,
+          password: state.password,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((res) => res.json())
+        .then((date) => console.log(date));
     };
+    const handleClickAnonymous = async () => {
+      await fetch('http://localhost:3333/anonymous', {
+        method: 'POST',
+        body: JSON.stringify({
+          login: state.login,
+          password: state.password,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((res) => res.json())
+        .then((date) => console.log(date));
+    };
+
     return {
       onSubmit,
+      handleClickAnonymous,
       state,
     };
   },
