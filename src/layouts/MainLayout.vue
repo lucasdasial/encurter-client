@@ -2,16 +2,11 @@
   <q-layout view="hHr lpR fFf">
     <q-header elevated class="bg-dark text-white" height-hint="98">
       <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          Encurter
-        </q-toolbar-title>
+        <q-toolbar-title> Encurter </q-toolbar-title>
         <q-tabs align="right">
-          <q-route-tab to="/" exact label="Início" icon="home" />
-          <q-route-tab to="/top" exact label="Tops" icon="star" />
-          <q-route-tab to="/login" exact label="Login" icon="account_circle" />
+          <q-route-tab exact to="/app/tops" label="Tops url" icon="star" />
+          <q-route-tab exact to="/app" label="Início" icon="home" />
+          <q-route-tab exact to="" label="Conta" icon="person" />
         </q-tabs>
 
         <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />

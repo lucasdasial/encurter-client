@@ -1,6 +1,9 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <div class="q-pa-md" style="max-width: 400px">
+  <div class="row items-center justify-evenly">
+    <img src="~assets/welcome.svg" alt="Bem vindo" style="width: 50%" />
+    <main class="q-pa-md" style="max-width: 400px">
+      <p class="text-h5 text-orange">Login</p>
+      <p class="text-subtitle1">Entre com sua conta cadastrada</p>
       <q-form
         action="http://localhost:3333"
         method="POST"
@@ -47,26 +50,28 @@
             color="orange"
             class="full-width"
           />
-          <q-btn
-            label="entrar modo anônimo"
-            @click="handleClickAnonymous"
-            color="grey"
-            flat
-            class="q-mt-sm full-width"
-          />
+          <router-link exact to="/app">
+            <q-btn
+              label="entrar modo anônimo"
+              @click="handleClickAnonymous"
+              color="grey"
+              flat
+              class="q-mt-sm full-width"
+            />
+          </router-link>
         </div>
       </q-form>
       <p>{{ state.login }}</p>
       {{ state.password }}
-    </div>
-  </q-page>
+    </main>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 
 export default defineComponent({
-  name: 'PageIndex',
+  name: 'FormLogin',
 
   setup() {
     const state = reactive({ login: '', password: '', isPwd: true });

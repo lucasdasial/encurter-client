@@ -3,14 +3,33 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    redirect: 'login',
+    component: () => import('layouts/AuthLayout.vue'),
+    children: [
+      {
+        path: 'login',
+        component: () =>
+          import('components/Auth_components/FormLogin/Index.vue'),
+      },
+      {
+        path: 'register',
+        component: () =>
+          import('components/Auth_components/FormRegister/Index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/app',
+    // redirect: 'home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '/', component: () => import('pages/Index.vue') },
-      { path: '/top', component: () => import('pages/Top.vue') },
-      { path: '/login', component: () => import('pages/Login.vue') },
       {
-        path: '/createacc',
-        component: () => import('pages/CreateAccount.vue'),
+        path: 'app',
+        component: () => import('pages/Home.vue'),
+      },
+      {
+        path: 'tops',
+        component: () => import('pages/Top.vue'),
       },
     ],
   },
