@@ -12,9 +12,8 @@
           filled
           name="login"
           v-model="state.login"
-          label="Usuário *"
+          label="Usuário "
           color="orange"
-          hint="preencha com seu usuário cadastrado"
         >
           <template v-slot:prepend>
             <q-icon name="person" color="orange" />
@@ -41,21 +40,21 @@
           </template>
         </q-input>
         <q-input
-          v-model="state.password"
+          v-model="state.password2"
           filled
           name="password"
           label="Repita a senha"
           color="orange"
-          :type="state.isPwd ? 'password' : 'text'"
+          :type="state.isPwd2 ? 'password' : 'text'"
         >
           <template v-slot:prepend>
             <q-icon name="key" color="orange" />
           </template>
           <template v-slot:append>
             <q-icon
-              :name="state.isPwd ? 'visibility_off' : 'visibility'"
+              :name="state.isPwd2 ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
-              @click="state.isPwd = !state.isPwd"
+              @click="state.isPwd2 = !state.isPwd2"
             />
           </template>
         </q-input>
@@ -76,14 +75,23 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
-  name: 'FormLogin',
+  name: 'FormRegister',
 
   setup() {
-    const state = reactive({ login: '', password: '', isPwd: true });
-    const onSubmit = async () => {
-      await fetch('http://localhost:3333', {
+    const $q = useQuasar();
+    const state = reactive({
+      login: '',
+      password: '',
+      password2: '',
+      isPwd: true,
+      isPwd2: true,
+    });
+
+    const toRegister = async () => {
+      await fetch('http://localhost:3000/users', {
         method: 'POST',
         body: JSON.stringify({
           login: state.login,
@@ -94,21 +102,43 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((date) => console.log(date));
+        .then(() => {
+          $q.notify({
+            message: 'Conta criada',
+            type: 'positive',
+            position: 'top',
+          });
+          setTimeout(() => {
+            $q.notify({
+              message:
+                'Agora você pode entrar com sua conta, volte e faça o login',
+              type: 'info',
+              position: 'top',
+            });
+          }, 2000);
+        })
+        .catch(() => {
+          $q.notify({
+            message: 'Houve um erro ao tentar criar a conta',
+            type: 'negative',
+            position: 'top',
+          });
+        });
     };
-    const handleClickAnonymous = async () => {
-      await fetch('http://localhost:3333/anonymous', {
-        method: 'POST',
-        body: JSON.stringify({
-          login: state.login,
-          password: state.password,
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-        .then((res) => res.json())
-        .then((date) => console.log(date));
+
+    const onSubmit = () => {
+      if (state.password != state.password2) {
+        $q.notify({
+          message: 'Senhas diferentes',
+          type: 'warning',
+          position: 'top',
+        });
+      } else {
+        void toRegister();
+      }
+    };
+    const handleClickAnonymous = () => {
+      console.log('oi');
     };
 
     return {
