@@ -2,18 +2,14 @@
   <div class="row items-center justify-evenly">
     <main class="q-pa-md" style="max-width: 400px">
       <p class="text-h5 text-orange q-mb-lg">Criar uma conta</p>
-      <q-form
-        action="http://localhost:3333"
-        method="POST"
-        @submit="onSubmit"
-        class="q-gutter-md"
-      >
+      <q-form @submit="onSubmit" class="q-gutter-md">
         <q-input
           filled
           name="login"
           v-model="state.login"
           label="Usuário "
           color="orange"
+          :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
         >
           <template v-slot:prepend>
             <q-icon name="person" color="orange" />
@@ -27,6 +23,7 @@
           label="Senha"
           color="orange"
           :type="state.isPwd ? 'password' : 'text'"
+          :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
         >
           <template v-slot:prepend>
             <q-icon name="key" color="orange" />
@@ -46,6 +43,7 @@
           label="Repita a senha"
           color="orange"
           :type="state.isPwd2 ? 'password' : 'text'"
+          :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
         >
           <template v-slot:prepend>
             <q-icon name="key" color="orange" />
@@ -91,7 +89,7 @@ export default defineComponent({
     });
 
     const toRegister = async () => {
-      await fetch('http://localhost:3000/users', {
+      await fetch('http://localhost:3333/register', {
         method: 'POST',
         body: JSON.stringify({
           login: state.login,
@@ -102,22 +100,32 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then(() => {
-          $q.notify({
-            message: 'Conta criada',
-            type: 'positive',
-            position: 'top',
-          });
-          setTimeout(() => {
+        .then((date) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (date.existingAccount == true) {
             $q.notify({
-              message:
-                'Agora você pode entrar com sua conta, volte e faça o login',
-              type: 'info',
+              message: 'Conta já existe',
+              type: 'warning',
               position: 'top',
             });
-          }, 2000);
+          } else {
+            $q.notify({
+              message: 'Conta criada',
+              type: 'positive',
+              position: 'top',
+            });
+            setTimeout(() => {
+              $q.notify({
+                message:
+                  'Agora você pode entrar com sua conta, volte e faça o login',
+                type: 'info',
+                position: 'top',
+              });
+            }, 2000);
+          }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           $q.notify({
             message: 'Houve um erro ao tentar criar a conta',
             type: 'negative',
