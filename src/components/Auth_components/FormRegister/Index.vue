@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center justify-evenly">
-    <main class="q-pa-md" style="max-width: 400px">
+    <main class="q-pa-md q-mt-lg" style="max-width: 400px">
       <p class="text-h5 text-orange q-mb-lg">Criar uma conta</p>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <q-input
@@ -125,7 +125,8 @@ export default defineComponent({
           }
         })
         .catch((err) => {
-          console.log(err);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          console.log(err.message);
           $q.notify({
             message: 'Houve um erro ao tentar criar a conta',
             type: 'negative',

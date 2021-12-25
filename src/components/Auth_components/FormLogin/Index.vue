@@ -4,19 +4,15 @@
     <main class="q-pa-md" style="max-width: 400px">
       <p class="text-h5 text-orange">Login</p>
       <p class="text-subtitle1">Entre com sua conta cadastrada</p>
-      <q-form
-        action="http://localhost:3333"
-        method="POST"
-        @submit="onSubmit"
-        class="q-gutter-md"
-      >
+      <q-form @submit="onSubmit" class="q-gutter-md">
         <q-input
           filled
           name="login"
           v-model="state.login"
-          label="Usuário *"
+          label="Usuário"
           color="orange"
           hint="preencha com seu usuário cadastrado"
+          :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
         >
           <template v-slot:prepend>
             <q-icon name="person" color="orange" />
@@ -30,6 +26,7 @@
           label="Senha"
           color="orange"
           :type="state.isPwd ? 'password' : 'text'"
+          :rules="[(val) => (val && val.length > 0) || 'Campo obrigatório']"
         >
           <template v-slot:prepend>
             <q-icon name="key" color="orange" />
@@ -69,14 +66,18 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'FormLogin',
 
   setup() {
+    const router = useRouter();
+    const $q = useQuasar();
     const state = reactive({ login: '', password: '', isPwd: true });
     const onSubmit = async () => {
-      await fetch('http://localhost:3333', {
+      await fetch('http://localhost:3333/login', {
         method: 'POST',
         body: JSON.stringify({
           login: state.login,
@@ -87,21 +88,41 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((date) => console.log(date));
+        .then((date) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (date.authenticated == true) {
+            void router.push('/app');
+          } else {
+            $q.notify({
+              message: 'Credências erradas ou inexistente',
+              type: 'warning',
+              position: 'top',
+            });
+            setTimeout(() => {
+              $q.notify({
+                message:
+                  'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
+                type: 'info',
+                position: 'top',
+              });
+            }, 3000);
+          }
+        });
     };
-    const handleClickAnonymous = async () => {
-      await fetch('http://localhost:3333/anonymous', {
-        method: 'POST',
-        body: JSON.stringify({
-          login: state.login,
-          password: state.password,
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-        .then((res) => res.json())
-        .then((date) => console.log(date));
+    const handleClickAnonymous = () => {
+      // await fetch('http://localhost:3333/anonymous', {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     login: state.login,
+      //     password: state.password,
+      //   }),
+      //   headers: {
+      //     'Content-type': 'application/json; charset=UTF-8',
+      //   },
+      // })
+      //   .then((res) => res.json())
+      //   .then((date) => console.log(date));
+      console.log('logado modo anonimo');
     };
 
     return {
