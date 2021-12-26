@@ -20,11 +20,11 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/app',
-    // redirect: 'home',
+    redirect: '/app/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
-        path: 'app',
+        path: 'home',
         component: () => import('pages/Home.vue'),
       },
       {

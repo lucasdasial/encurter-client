@@ -5,8 +5,13 @@
         <q-toolbar-title> Encurter </q-toolbar-title>
         <q-tabs v-show="!$q.screen.lt.sm" align="right">
           <q-route-tab exact to="/app/tops" label="Tops url" icon="star" />
-          <q-route-tab exact to="/app" label="Início" icon="home" />
-          <q-route-tab exact to="" label="Conta" icon="person" />
+          <q-route-tab exact to="/app/home" label="Início" icon="home" />
+          <q-route-tab
+            exact
+            to=""
+            :label="userStore.getCurrentUser"
+            icon="account_circle"
+          />
         </q-tabs>
 
         <q-btn
@@ -33,14 +38,17 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
+import { useUserStore } from 'src/store';
 
 export default defineComponent({
   setup() {
+    const userStore = useUserStore();
     const $q = useQuasar();
     const rightDrawerOpen = ref(false);
 
     return {
       $q,
+      userStore,
       rightDrawerOpen,
       toggleRightDrawer() {
         rightDrawerOpen.value = !rightDrawerOpen.value;

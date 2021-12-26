@@ -58,8 +58,6 @@
           </router-link>
         </div>
       </q-form>
-      <p>{{ state.login }}</p>
-      {{ state.password }}
     </main>
   </div>
 </template>
@@ -68,18 +66,19 @@
 import { defineComponent, reactive } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { useUserStore } from 'src/store';
 
 type state = {
   login: string;
   password: string;
   isPwd: boolean;
-  user: string | null;
 };
 
 export default defineComponent({
   name: 'FormLogin',
 
   setup() {
+    const userStore = useUserStore();
     const router = useRouter();
 
     const $q = useQuasar();
@@ -87,7 +86,6 @@ export default defineComponent({
       login: '',
       password: '',
       isPwd: true,
-      user: null,
     });
 
     const onSubmit = async () => {
@@ -105,7 +103,7 @@ export default defineComponent({
         .then((data: { authenticated: boolean; user: string }) => {
           if (data.authenticated == true) {
             // console.log(data.user);
-            state.user = data.user;
+            userStore.setUser(data.user);
             void router.push('/app');
             return;
           }
