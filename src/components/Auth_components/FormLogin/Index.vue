@@ -69,13 +69,27 @@ import { defineComponent, reactive } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
+type state = {
+  login: string;
+  password: string;
+  isPwd: boolean;
+  user: string | null;
+};
+
 export default defineComponent({
   name: 'FormLogin',
 
   setup() {
     const router = useRouter();
+
     const $q = useQuasar();
-    const state = reactive({ login: '', password: '', isPwd: true });
+    const state = reactive<state>({
+      login: '',
+      password: '',
+      isPwd: true,
+      user: null,
+    });
+
     const onSubmit = async () => {
       await fetch('http://localhost:3333/login', {
         method: 'POST',
@@ -88,25 +102,26 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((date) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (date.authenticated == true) {
+        .then((data: { authenticated: boolean; user: string }) => {
+          if (data.authenticated == true) {
+            // console.log(data.user);
+            state.user = data.user;
             void router.push('/app');
-          } else {
+            return;
+          }
+          $q.notify({
+            message: 'Credências erradas ou inexistente',
+            type: 'warning',
+            position: 'top',
+          });
+          setTimeout(() => {
             $q.notify({
-              message: 'Credências erradas ou inexistente',
-              type: 'warning',
+              message:
+                'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
+              type: 'info',
               position: 'top',
             });
-            setTimeout(() => {
-              $q.notify({
-                message:
-                  'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
-                type: 'info',
-                position: 'top',
-              });
-            }, 3000);
-          }
+          }, 3000);
         });
     };
     const handleClickAnonymous = () => {

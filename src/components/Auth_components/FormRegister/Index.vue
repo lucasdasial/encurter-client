@@ -100,8 +100,7 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((date) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        .then((date: { existingAccount: boolean }) => {
           if (date.existingAccount == true) {
             $q.notify({
               message: 'Conta já existe',
