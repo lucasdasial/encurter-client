@@ -107,6 +107,7 @@ export default defineComponent({
       })
         .then((res) => res.json())
         .then((data: { shortUrl: string }) => {
+          console.log(data);
           state.shortUrl = data.shortUrl;
           history.value.push(state.shortUrl);
         });
