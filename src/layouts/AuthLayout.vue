@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title class="text-grey-9">
           <q-avatar> </q-avatar>
-          <i class="fas fa-cat"></i>
+
           Encurter
         </q-toolbar-title>
 

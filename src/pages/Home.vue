@@ -51,7 +51,6 @@ export default defineComponent({
         });
         return;
       }
-      // const apiKey = 'aa16d5d562c443be8b7e076b6a7be082';
 
       const requestHeaders = {
         'content-Type': 'application/json',

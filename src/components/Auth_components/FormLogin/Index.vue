@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center justify-evenly">
-    <img src="~assets/welcome.svg" alt="Bem vindo" style="width: 50%" />
+    <img src="~assets/login.svg" alt="Bem vindo" style="width: 50%" />
     <main class="q-pa-md" style="max-width: 400px">
       <p class="text-h5 text-orange">Login</p>
       <p class="text-subtitle1">Entre com sua conta cadastrada</p>
@@ -89,7 +89,6 @@ export default defineComponent({
     });
 
     const onSubmit = async () => {
-      alert(state.login);
       await fetch('http://localhost:3333/login', {
         method: 'POST',
         body: JSON.stringify({
@@ -103,7 +102,6 @@ export default defineComponent({
         .then((res) => res.json())
         .then((data: { authenticated: boolean; user: string }) => {
           if (data.authenticated == true) {
-            console.log(data.authenticated);
             SessionStorage.set('token', data.authenticated);
             userStore.setUser(data.user);
             void router.push('/app');
