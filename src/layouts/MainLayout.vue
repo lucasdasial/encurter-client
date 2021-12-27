@@ -111,9 +111,9 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { useQuasar } from 'quasar';
-import { useUserStore } from 'src/store';
+import { useQuasar, SessionStorage } from 'quasar';
 import { useRouter } from 'vue-router';
+import useUserStore from 'src/store/users';
 
 export default defineComponent({
   setup() {
@@ -129,19 +129,19 @@ export default defineComponent({
     const onLogout = () => {
       $q.notify({
         timeout: 2800,
-        message: `Bye, bye até a próxima ${userStore.getCurrentUser} !`,
+        message: `Bye, bye até a próxima ${userStore.getCurrentUser}!`,
         type: 'info',
         position: 'top',
       });
       if (rightDrawerOpen.value == true) {
         toggleRightDrawer();
       }
+      userStore.$state.userName = 'Usuário';
       setTimeout(() => {
         void router.push('/login');
       }, 3500);
-      setTimeout(() => {
-        document.location.reload(true);
-      }, 3600);
+
+      SessionStorage.remove('token');
     };
 
     return {
