@@ -47,7 +47,7 @@
             color="orange"
             class="full-width"
           />
-          <router-link exact to="/app">
+          <router-link exact to="/anonymous">
             <q-btn
               label="entrar modo anônimo"
               @click="handleClickAnonymous"
@@ -64,9 +64,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import { useQuasar } from 'quasar';
+import { useQuasar, SessionStorage } from 'quasar';
 import { useRouter } from 'vue-router';
-import { useUserStore } from 'src/store';
+import useUserStore from 'src/store/users';
 
 type state = {
   login: string;
@@ -89,6 +89,7 @@ export default defineComponent({
     });
 
     const onSubmit = async () => {
+      alert(state.login);
       await fetch('http://localhost:3333/login', {
         method: 'POST',
         body: JSON.stringify({
@@ -102,7 +103,8 @@ export default defineComponent({
         .then((res) => res.json())
         .then((data: { authenticated: boolean; user: string }) => {
           if (data.authenticated == true) {
-            // console.log(data.user);
+            console.log(data.authenticated);
+            SessionStorage.set('token', data.authenticated);
             userStore.setUser(data.user);
             void router.push('/app');
             return;

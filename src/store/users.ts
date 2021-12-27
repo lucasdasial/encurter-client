@@ -4,10 +4,10 @@ type User = {
   userName: string;
 };
 
-export default defineStore('users', {
+const useUserStore = defineStore('users', {
   state: (): User => {
     return {
-      userName: 'Anônimo',
+      userName: 'Usuário',
     };
   },
   getters: {
@@ -21,3 +21,5 @@ export default defineStore('users', {
     },
   },
 });
+
+export default useUserStore;

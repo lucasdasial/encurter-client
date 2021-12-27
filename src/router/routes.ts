@@ -22,6 +22,7 @@ const routes: RouteRecordRaw[] = [
     path: '/app',
     redirect: '/app/home',
     component: () => import('layouts/MainLayout.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'home',
@@ -32,6 +33,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Top.vue'),
       },
     ],
+  },
+  {
+    path: '/anonymous',
+    component: () => import('pages/Anonymous.vue'),
   },
 
   // Always leave this as last one,
