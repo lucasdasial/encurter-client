@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-evenly">
+  <div class="row items-center justify-evenly q-pt-md">
     <main class="q-pa-md q-mt-lg" style="max-width: 400px">
       <p class="text-h5 text-orange q-mb-lg">Criar uma conta</p>
       <q-form @submit="onSubmit" class="q-gutter-md">

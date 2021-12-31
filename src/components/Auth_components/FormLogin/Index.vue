@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-evenly">
+  <div class="row items-center justify-evenly q-pt-xl">
     <img src="~assets/login.svg" alt="Bem vindo" style="width: 50%" />
     <main class="q-pa-md" style="max-width: 400px">
       <p class="text-h5 text-orange">Login</p>

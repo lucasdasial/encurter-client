@@ -20,16 +20,16 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/app',
-    redirect: '/app/home',
+    redirect: '/app/new',
     component: () => import('layouts/MainLayout.vue'),
     meta: { requiresAuth: true },
     children: [
       {
-        path: 'home',
+        path: 'new',
         component: () => import('pages/Home.vue'),
       },
       {
-        path: 'tops',
+        path: 'my-urls',
         component: () => import('pages/Top.vue'),
       },
     ],
