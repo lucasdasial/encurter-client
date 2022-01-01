@@ -100,8 +100,8 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((date: { existingAccount: boolean }) => {
-          if (date.existingAccount == true) {
+        .then((data: { existingAccount: boolean }) => {
+          if (data.existingAccount == true) {
             $q.notify({
               message: 'Conta já existe',
               type: 'warning',

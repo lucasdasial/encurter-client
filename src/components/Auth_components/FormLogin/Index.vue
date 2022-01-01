@@ -50,7 +50,6 @@
           <router-link exact to="/anonymous">
             <q-btn
               label="entrar modo anônimo"
-              @click="handleClickAnonymous"
               color="grey"
               flat
               class="q-mt-sm full-width"
@@ -100,10 +99,11 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((data: { authenticated: boolean; user: string }) => {
+        .then((data: { authenticated: boolean; user: string; userId: number }) => {
           if (data.authenticated == true) {
             SessionStorage.set('token', data.authenticated);
             userStore.setUser(data.user);
+            userStore.setId(data.userId)
             void router.push('/app');
             return;
           }
@@ -122,25 +122,10 @@ export default defineComponent({
           }, 3000);
         });
     };
-    const handleClickAnonymous = () => {
-      // await fetch('http://localhost:3333/anonymous', {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     login: state.login,
-      //     password: state.password,
-      //   }),
-      //   headers: {
-      //     'Content-type': 'application/json; charset=UTF-8',
-      //   },
-      // })
-      //   .then((res) => res.json())
-      //   .then((date) => console.log(date));
-      console.log('logado modo anonimo');
-    };
+
 
     return {
       onSubmit,
-      handleClickAnonymous,
       state,
     };
   },
