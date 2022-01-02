@@ -32,7 +32,11 @@
       </q-toolbar>
     </q-header>
     <q-page class="row items-center justify-evenly">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition appear enter-active-class="animated fadeInUp slow delay-1s">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </q-page>
   </q-layout>
 </template>
