@@ -30,7 +30,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'my-urls',
-        component: () => import('pages/Top.vue'),
+        component: () => import('src/pages/MyUrls.vue'),
       },
     ],
   },

@@ -2,12 +2,12 @@
   <q-layout view="hHr lpR fFf">
     <q-header class="bg-grey-3 text-grey-9" height-hint="98">
       <q-toolbar>
-        <q-toolbar-title> Bem vindo <strong class="text-orange">{{userStore.getCurrentUser}}</strong>! </q-toolbar-title>
-        <q-tabs
-          v-show="!$q.screen.lt.sm"
-          align="right"
-          indicator-color="orange"
-        >
+        <q-toolbar-title>
+          Bem vindo
+          <strong class="text-orange">{{ userStore.getCurrentUser }}</strong
+          >!
+        </q-toolbar-title>
+        <q-tabs v-show="!q.screen.lt.sm" align="right" indicator-color="orange">
           <q-route-tab
             exact
             to="/app/new"
@@ -19,7 +19,7 @@
             exact
             to="/app/my-urls"
             label="minhas urls"
-            icon ="link"
+            icon="link"
             style="width: 120px"
           />
 
@@ -47,7 +47,7 @@
         </q-tabs>
 
         <q-btn
-          v-show="$q.screen.lt.sm"
+          v-show="q.screen.lt.sm"
           dense
           flat
           round
@@ -74,7 +74,12 @@
         >
           <q-item-section>Início / Nova url</q-item-section>
           <q-item-section avatar>
-            <q-avatar rounded color="orange" text-color="white" icon="add_circle_outline" />
+            <q-avatar
+              rounded
+              color="orange"
+              text-color="white"
+              icon="add_circle_outline"
+            />
           </q-item-section>
         </q-item>
 
@@ -102,9 +107,7 @@
     </q-drawer>
 
     <q-page-container>
-      <transition appear enter-active-class="animated fadeIn slower delay-1s">
-        <router-view />
-      </transition>
+      <router-view> </router-view>
     </q-page-container>
   </q-layout>
 </template>
@@ -119,7 +122,7 @@ export default defineComponent({
   setup() {
     const userStore = useUserStore();
     const router = useRouter();
-    const $q = useQuasar();
+    const q = useQuasar();
     const rightDrawerOpen = ref(false);
 
     const toggleRightDrawer = () => {
@@ -127,7 +130,7 @@ export default defineComponent({
     };
 
     const onLogout = () => {
-      $q.notify({
+      q.notify({
         timeout: 2800,
         message: `Bye, bye até a próxima ${userStore.getCurrentUser}!`,
         type: 'info',
@@ -145,7 +148,7 @@ export default defineComponent({
     };
 
     return {
-      $q,
+      q,
       userStore,
       rightDrawerOpen,
       toggleRightDrawer,

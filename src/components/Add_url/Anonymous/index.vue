@@ -1,52 +1,44 @@
 <template>
-    <main class="column items-center">
-
-      <div class="box__img bg-orange-3 q-pa-md">
-        <img src="~/assets/share_link.svg" />
-      </div>
-      <section
-        class="q-pa-md row no-wrap col-12"
-        style="width: 100%; max-width: 1024px"
+  <main class="column items-center">
+    <div class="box__img bg-orange-3 q-pa-md">
+      <img src="~/assets/share_link.svg" />
+    </div>
+    <section
+      class="q-pa-md row no-wrap col-12"
+      style="width: 100%; max-width: 1024px"
+    >
+      <q-input
+        class="input__url q-mr-sm"
+        outlined
+        color="orange"
+        v-model="state.url"
+        label="Urls validas apenas com (https://www...)"
       >
-        <q-input
-          class="input__url q-mr-sm"
-          outlined
-          color="orange"
-          v-model="state.url"
-          label="Urls validas apenas com (https://www...)"
-        >
-          <template v-slot:prepend>
-            <q-icon size="40px" name="link" color="orange" />
-          </template>
-        </q-input>
+        <template v-slot:prepend>
+          <q-icon size="40px" name="link" color="orange" />
+        </template>
+      </q-input>
 
-        <div>
-          <q-btn
-            @click="toShort"
-            icon="add_link"
-            class="col-2 bg-orange text-white full-height"
-          />
-        </div>
-      </section>
+      <div>
+        <q-btn
+          @click="toShort"
+          icon="add_link"
+          class="col-2 bg-orange text-white full-height"
+        />
+      </div>
+    </section>
 
-      <section class="link">
-        <div
-          class="
-            bg-grey-3
-            q-pa-md q-ma-md
-            link__item
-            row
-            no-wrap
-            justify-between
-          "
-          v-for="(link, key) in history"
-          :key="key"
-        >
-          <a :href="'https://' + link" target="_blank">{{ link }}</a>
-          <q-btn @click="toCopy" icon="content_copy" flat color="teal" />
-        </div>
-      </section>
-    </main>
+    <section class="link">
+      <div
+        class="bg-grey-3 q-pa-md q-ma-md link__item row no-wrap justify-between"
+        v-for="(link, key) in history"
+        :key="key"
+      >
+        <a :href="'https://' + link" target="_blank">{{ link }}</a>
+        <q-btn @click="onCopy" icon="content_copy" flat color="teal" />
+      </div>
+    </section>
+  </main>
 </template>
 
 <script lang="ts">
@@ -60,7 +52,7 @@ type State = {
 
 export default defineComponent({
   setup() {
-    const $q = useQuasar();
+    const q = useQuasar();
     const state = reactive<State>({
       shortUrl: '',
       url: '',
@@ -69,7 +61,7 @@ export default defineComponent({
 
     const toShort = async () => {
       if (!state.url) {
-        $q.notify({
+        q.notify({
           message: 'Porfavor insira alguma url para poder encurtar',
           type: 'warning',
           position: 'top',
@@ -98,12 +90,12 @@ export default defineComponent({
         });
     };
 
-    const toCopy = () => {
+    const onCopy = () => {
       const urlSelect = state.shortUrl;
       void navigator.clipboard.writeText(urlSelect);
 
       setTimeout(() => {
-        $q.notify({
+        q.notify({
           message: 'Copiado',
           type: 'positive',
           position: 'top',
@@ -114,12 +106,12 @@ export default defineComponent({
       toShort,
       state,
       history,
-      toCopy,
+      onCopy,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
- @import "./styles.scss";
+@import './styles.scss';
 </style>

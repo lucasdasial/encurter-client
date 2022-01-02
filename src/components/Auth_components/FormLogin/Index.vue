@@ -80,7 +80,7 @@ export default defineComponent({
     const userStore = useUserStore();
     const router = useRouter();
 
-    const $q = useQuasar();
+    const q = useQuasar();
     const state = reactive<state>({
       login: '',
       password: '',
@@ -99,30 +99,31 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((data: { authenticated: boolean; user: string; userId: number }) => {
-          if (data.authenticated == true) {
-            SessionStorage.set('token', data.authenticated);
-            userStore.setUser(data.user);
-            userStore.setId(data.userId)
-            void router.push('/app');
-            return;
-          }
-          $q.notify({
-            message: 'Credências erradas ou inexistente',
-            type: 'warning',
-            position: 'top',
-          });
-          setTimeout(() => {
-            $q.notify({
-              message:
-                'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
-              type: 'info',
+        .then(
+          (data: { authenticated: boolean; user: string; userId: number }) => {
+            if (data.authenticated == true) {
+              SessionStorage.set('token', data.authenticated);
+              userStore.setUser(data.user);
+              userStore.setId(data.userId);
+              void router.push('/app');
+              return;
+            }
+            q.notify({
+              message: 'Credências erradas ou inexistente',
+              type: 'warning',
               position: 'top',
             });
-          }, 3000);
-        });
+            setTimeout(() => {
+              q.notify({
+                message:
+                  'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
+                type: 'info',
+                position: 'top',
+              });
+            }, 3000);
+          }
+        );
     };
-
 
     return {
       onSubmit,

@@ -30,14 +30,13 @@
     </section>
 
     <section class="link">
-        <div
+      <div
         class="bg-grey-3 q-pa-md q-ma-md link__item row no-wrap justify-between"
         v-for="(link, key) in history"
         :key="key"
       >
         <a :href="'https://' + link" target="_blank">{{ link }}</a>
         <q-btn @click="toCopy" icon="content_copy" flat color="teal" />
-
       </div>
     </section>
   </main>
@@ -57,7 +56,7 @@ export default defineComponent({
   setup() {
     const useStore = useUserStore();
     const currentUserId = useStore.getUserId;
-    const $q = useQuasar();
+    const q = useQuasar();
     const state = reactive<State>({
       shortUrl: '',
       url: '',
@@ -66,7 +65,7 @@ export default defineComponent({
 
     const handleClick = () => {
       if (!state.url) {
-        $q.notify({
+        q.notify({
           message: 'Porfavor insira alguma url para poder encurtar',
           type: 'warning',
           position: 'top',
@@ -98,7 +97,7 @@ export default defineComponent({
         });
     }
     const saveOnDatabase = () => {
-      void fetch('http://localhost:3333/save-url', {
+      void fetch('http://localhost:3333/url/save', {
         method: 'POST',
         body: JSON.stringify({
           url: state.url,
@@ -112,7 +111,7 @@ export default defineComponent({
         .then((res) => res.json())
         .then((data: { saved: boolean }) => {
           if (data.saved == false) {
-            $q.notify({
+            q.notify({
               message: 'Link já encurtado, de uma olhada na sua lista urls ',
               position: 'top',
               type: 'warning',
@@ -126,7 +125,7 @@ export default defineComponent({
       void navigator.clipboard.writeText(urlSelect);
 
       setTimeout(() => {
-        $q.notify({
+        q.notify({
           message: 'Copiado',
           type: 'positive',
           position: 'top',

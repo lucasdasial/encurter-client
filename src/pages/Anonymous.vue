@@ -12,19 +12,17 @@
     </section>
   </header>
 
-  <transition appear enter-active-class="animated bounceIn slower delay-1s">
-    <AddUrl/>
-  </transition>
+  <!-- <transition appear enter-active-class="animated bounceIn slower delay-1s"> -->
+  <AddUrl />
 </template>
 
-
 <script lang="ts">
-import { defineComponent } from 'vue'
-import AddUrl from 'src/components/Add_url/Anonymous/index.vue'
+import { defineComponent } from 'vue';
+import AddUrl from 'src/components/Add_url/Anonymous/index.vue';
 
 export default defineComponent({
-  components:{
+  components: {
     AddUrl,
-  }
-})
+  },
+});
 </script>
