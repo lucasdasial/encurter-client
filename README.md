@@ -1,26 +1,53 @@
-# encuter (encurter)
+# Aplicação encurter
 
-Um encurtardor de url feito com quasar framework
+Encurtardor de urls
+[Apresentação do projeto](https://share.vidyard.com/watch/X3uysBbJzDgorneLqFu4qz?)
 
-## Install the dependencies
+## Passo a passo para rodar o projeto
+
+1- clonar os dois repositorios, o
+[encurter client](https://github.com/luccasalves/encurter-client) e o
+[encurter back-end](https://github.com/luccasalves/encurter-backend)
+<br/>
+2-rodar os comandos abaixo:
+
+### Instalação sas dependências em ambos os projetos
+
 ```bash
-yarn
+  yarn ou npm i
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Iniciar a aplicação **encurter client**
+
 ```bash
 quasar dev
 ```
 
-### Lint the files
+### Levantar a api **encurter back-end**
+
 ```bash
-yarn run lint
+yarn dev ou npm run dev
+```
+### Rodar dos testes unitários
+
+```bash
+quasar test --unit jest
 ```
 
-### Build the app for production
-```bash
-quasar build
-```
+## Tecnologias utilizadas
+### No Front-end:
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+- [Vuejs 3](https://v3.vuejs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Quasar Framework](https://quasar.dev)
+- [SCSS](https://sass-lang.com/)
+
+### No Back-end:
+
+- [Nodejs](https://nodejs.org/)
+- [Express](https://expressjs.com/pt-br/)
+- [PostegreSQL](https://www.postgresql.org/)
+
+### Recursos visuais:
+
+- [unDrawn](https://undraw.co/illustrations)

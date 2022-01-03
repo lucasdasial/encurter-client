@@ -12,8 +12,10 @@
     </section>
   </header>
 
-  <!-- <transition appear enter-active-class="animated bounceIn slower delay-1s"> -->
+  <transition appear enter-active-class="animated fadeInUp slower delay-1s">
+
   <AddUrl />
+  </transition>
 </template>
 
 <script lang="ts">
