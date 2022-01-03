@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-evenly">
+  <div class="row items-center justify-evenly q-pt-md">
     <main class="q-pa-md q-mt-lg" style="max-width: 400px">
       <p class="text-h5 text-orange q-mb-lg">Criar uma conta</p>
       <q-form @submit="onSubmit" class="q-gutter-md">
@@ -79,7 +79,7 @@ export default defineComponent({
   name: 'FormRegister',
 
   setup() {
-    const $q = useQuasar();
+    const q = useQuasar();
     const state = reactive({
       login: '',
       password: '',
@@ -100,21 +100,21 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((date: { existingAccount: boolean }) => {
-          if (date.existingAccount == true) {
-            $q.notify({
+        .then((data: { existingAccount: boolean }) => {
+          if (data.existingAccount == true) {
+            q.notify({
               message: 'Conta já existe',
               type: 'warning',
               position: 'top',
             });
           } else {
-            $q.notify({
+            q.notify({
               message: 'Conta criada',
               type: 'positive',
               position: 'top',
             });
             setTimeout(() => {
-              $q.notify({
+              q.notify({
                 message:
                   'Agora você pode entrar com sua conta, volte e faça o login',
                 type: 'info',
@@ -126,7 +126,7 @@ export default defineComponent({
         .catch((err) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           console.log(err.message);
-          $q.notify({
+          q.notify({
             message: 'Houve um erro ao tentar criar a conta',
             type: 'negative',
             position: 'top',
@@ -136,7 +136,7 @@ export default defineComponent({
 
     const onSubmit = () => {
       if (state.password != state.password2) {
-        $q.notify({
+        q.notify({
           message: 'Senhas diferentes',
           type: 'warning',
           position: 'top',

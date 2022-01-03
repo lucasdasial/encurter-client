@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-evenly">
+  <div class="row items-center justify-evenly q-pt-xl">
     <img src="~assets/login.svg" alt="Bem vindo" style="width: 50%" />
     <main class="q-pa-md" style="max-width: 400px">
       <p class="text-h5 text-orange">Login</p>
@@ -50,7 +50,6 @@
           <router-link exact to="/anonymous">
             <q-btn
               label="entrar modo anônimo"
-              @click="handleClickAnonymous"
               color="grey"
               flat
               class="q-mt-sm full-width"
@@ -81,7 +80,7 @@ export default defineComponent({
     const userStore = useUserStore();
     const router = useRouter();
 
-    const $q = useQuasar();
+    const q = useQuasar();
     const state = reactive<state>({
       login: '',
       password: '',
@@ -100,47 +99,34 @@ export default defineComponent({
         },
       })
         .then((res) => res.json())
-        .then((data: { authenticated: boolean; user: string }) => {
-          if (data.authenticated == true) {
-            SessionStorage.set('token', data.authenticated);
-            userStore.setUser(data.user);
-            void router.push('/app');
-            return;
-          }
-          $q.notify({
-            message: 'Credências erradas ou inexistente',
-            type: 'warning',
-            position: 'top',
-          });
-          setTimeout(() => {
-            $q.notify({
-              message:
-                'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
-              type: 'info',
+        .then(
+          (data: { authenticated: boolean; user: string; userId: number }) => {
+            if (data.authenticated == true) {
+              SessionStorage.set('token', data.authenticated);
+              userStore.setUser(data.user);
+              userStore.setId(data.userId);
+              void router.push('/app');
+              return;
+            }
+            q.notify({
+              message: 'Credências erradas ou inexistente',
+              type: 'warning',
               position: 'top',
             });
-          }, 3000);
-        });
-    };
-    const handleClickAnonymous = () => {
-      // await fetch('http://localhost:3333/anonymous', {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     login: state.login,
-      //     password: state.password,
-      //   }),
-      //   headers: {
-      //     'Content-type': 'application/json; charset=UTF-8',
-      //   },
-      // })
-      //   .then((res) => res.json())
-      //   .then((date) => console.log(date));
-      console.log('logado modo anonimo');
+            setTimeout(() => {
+              q.notify({
+                message:
+                  'Certifique-se de suas crendências ou se ainda não tiver, cria uma conta',
+                type: 'info',
+                position: 'top',
+              });
+            }, 3000);
+          }
+        );
     };
 
     return {
       onSubmit,
-      handleClickAnonymous,
       state,
     };
   },

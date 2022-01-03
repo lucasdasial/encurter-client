@@ -2,32 +2,32 @@
   <q-layout view="hHr lpR fFf">
     <q-header class="bg-grey-3 text-grey-9" height-hint="98">
       <q-toolbar>
-        <q-toolbar-title> Encurter </q-toolbar-title>
-        <q-tabs
-          v-show="!$q.screen.lt.sm"
-          align="right"
-          indicator-color="orange"
-        >
+        <q-toolbar-title>
+          Bem vindo
+          <strong class="text-orange">{{ userStore.getCurrentUser }}</strong
+          >!
+        </q-toolbar-title>
+        <q-tabs v-show="!q.screen.lt.sm" align="right" indicator-color="orange">
           <q-route-tab
             exact
-            to="/app/home"
-            label="Início"
-            icon="home"
-            style="width: 100px"
+            to="/app/new"
+            label="nova url"
+            icon="add_circle_outline"
+            style="width: 120px"
           />
           <q-route-tab
             exact
-            to="/app/tops"
-            label="Tops url"
-            icon="star"
-            style="width: 100px"
+            to="/app/my-urls"
+            label="minhas urls"
+            icon="link"
+            style="width: 120px"
           />
 
           <q-route-tab
             exact
             to=""
-            :label="userStore.getCurrentUser"
-            icon="account_circle"
+            label="+ ações"
+            icon="manage_accounts"
             style="width: 120px"
           >
             <q-menu transition-show="jump-down" transition-hide="jump-up">
@@ -47,7 +47,7 @@
         </q-tabs>
 
         <q-btn
-          v-show="$q.screen.lt.sm"
+          v-show="q.screen.lt.sm"
           dense
           flat
           round
@@ -69,24 +69,29 @@
         <q-item
           clickable
           v-ripple
-          to="/app/home"
+          to="/app/new"
           active-class="text-orange text-bold"
         >
-          <q-item-section>Início</q-item-section>
+          <q-item-section>Início / Nova url</q-item-section>
           <q-item-section avatar>
-            <q-avatar rounded color="orange" text-color="white" icon="home" />
+            <q-avatar
+              rounded
+              color="orange"
+              text-color="white"
+              icon="add_circle_outline"
+            />
           </q-item-section>
         </q-item>
 
         <q-item
           clickable
           v-ripple
-          to="/app/tops"
+          to="/app/my-urls"
           active-class="text-orange text-bold"
         >
-          <q-item-section>Tops Url</q-item-section>
+          <q-item-section>Minhas Ulrs</q-item-section>
           <q-item-section avatar>
-            <q-avatar rounded color="orange" text-color="white" icon="star" />
+            <q-avatar rounded color="orange" text-color="white" icon="link" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -102,9 +107,11 @@
     </q-drawer>
 
     <q-page-container>
-      <transition appear enter-active-class="animated fadeIn slower delay-1s">
-        <router-view />
-      </transition>
+      <router-view v-slot="{ Component }">
+        <transition appear enter-active-class="animated fadeInUp slow delay-1s">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
@@ -119,7 +126,7 @@ export default defineComponent({
   setup() {
     const userStore = useUserStore();
     const router = useRouter();
-    const $q = useQuasar();
+    const q = useQuasar();
     const rightDrawerOpen = ref(false);
 
     const toggleRightDrawer = () => {
@@ -127,7 +134,7 @@ export default defineComponent({
     };
 
     const onLogout = () => {
-      $q.notify({
+      q.notify({
         timeout: 2800,
         message: `Bye, bye até a próxima ${userStore.getCurrentUser}!`,
         type: 'info',
@@ -145,7 +152,7 @@ export default defineComponent({
     };
 
     return {
-      $q,
+      q,
       userStore,
       rightDrawerOpen,
       toggleRightDrawer,
