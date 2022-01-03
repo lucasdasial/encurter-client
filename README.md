@@ -20,7 +20,7 @@ Encurtardor de urls
 ### Iniciar a aplicação **encurter client**
 
 ```bash
-quasar dev
+quasar dev ou quasar dev -m ssr
 ```
 
 ### Levantar a api **encurter back-end**
